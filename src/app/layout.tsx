@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 // app/layout.tsx
 
-import "./globals.css";
+// import "./globals.css";
+// import "./styles.css";
+import "./app.css";
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
