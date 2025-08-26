@@ -1,22 +1,24 @@
 import { getPost, getAllPosts } from "@/lib/posts"
+import { title } from "process"
 
 export default async function Page({
     params,
 }: {
     params: { slug: string }
 }) {
-    const { slug } = await params
-    const { component: Post, metadata = {} } = await getPost(slug)
+    const { slug } = await params;
+    const { component: Post, metadata: { title = "", description = "", date = "", tags = [] } } = await getPost(slug)
 
     return (
         <article className="prose dark:prose-invert mx-auto">
             <header className="mb-8">
-                <h1>{metadata.title}</h1>
-                {metadata.date && (
-                    <time dateTime={metadata.date}>{metadata.date}</time>
+                <h1>{title}</h1>
+                <div className="">{description}</div>
+                {date && (
+                    <time dateTime={date}>{date}</time>
                 )}
-                {metadata.tags?.length > 0 && (
-                    <p>{metadata.tags.join(", ")}</p>
+                {tags?.length > 0 && (
+                    <p>{tags.join(", ")}</p>
                 )}
             </header>
             <Post />
@@ -29,16 +31,17 @@ export async function generateMetadata({
 }: {
     params: { slug: string }
 }) {
-    const { slug } = await params
-    const { metadata = {} } = await getPost(slug)
+    const { slug } = await params;
+    const { metadata: { title = "", description = "Default blog description", ...rest } } = await getPost(slug)
 
     return {
-        title: metadata.title,
-        description: metadata.description || "Default blog description",
+        title,
+        description,
         openGraph: {
-            title: metadata.title,
-            description: metadata.description || "Default blog description",
+            title,
+            description
         },
+        ...rest
     }
 }
 

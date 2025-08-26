@@ -21,14 +21,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = typeof window !== "undefined" ? window.location.pathname : "";
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <html lang="en" className="h-full">
         <body className="antialiased">
           <Header />
-          <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            {children}
-          </main>
+          {children}
           <Footer />
         </body>
       </html>

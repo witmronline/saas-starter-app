@@ -1,4 +1,3 @@
-// src/components/layout/Header.tsx
 "use client";
 
 import Link from "next/link";
@@ -11,11 +10,19 @@ const navItems = [
     { href: "/pricing", label: "Pricing" },
     { href: "/dashboard", label: "Dashboard" },
     { href: "/login", label: "Login" },
-    { href: "/singin", label: "Singin" },
+    { href: "/signup", label: "Signup" },
 ];
 
 export default function Header() {
-    const pathname = usePathname();
+    const pathname = usePathname() || "";
+
+    // Hide header on dashboard routes
+    const hideHeaderPaths = ["/dashboard"];
+    const shouldHide = hideHeaderPaths.some((path) =>
+        pathname.startsWith(path)
+    );
+
+    if (shouldHide) return null; // don't render header
 
     return (
         <header className="border-b bg-background">
